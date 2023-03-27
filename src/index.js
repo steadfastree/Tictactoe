@@ -69,7 +69,7 @@ const Board = () => {
             setGameover(false);
           }}
         >
-          Game Reset!
+          Game Reset
         </button>
       ); //게임이 끝났으면 모든 State를 초기화하는 리셋 버튼 렌더링
   };
