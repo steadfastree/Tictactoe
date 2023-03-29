@@ -13,7 +13,6 @@ const Square = ({ value, onClick }) => {
 const Board = () => {
   const [squares, setSquares] = useState(Array(9).fill(""));
   const [next, setNext] = useState("X");
-  const [gameOver, setGameover] = useState(false);
 
   const tieGameChecker = () => {
     for (let i = 0; i < 9; ++i) {
@@ -45,10 +44,6 @@ const Board = () => {
     return false;
   };
 
-  useEffect(() => {
-    if (hasWinner() || tieGameChecker()) setGameover(true);
-  }, [squares]); //계속 too many rendering 에러가 떠서 squares가 바뀔 때만 체크하도록 수정
-
   const handleClick = (i) => {
     if (hasWinner() || squares[i] != "") return;
     const sq = squares.slice();
@@ -59,14 +54,13 @@ const Board = () => {
     setSquares(sq);
   };
 
-  const renderReset = (gameOver) => {
-    if (gameOver)
+  const renderReset = () => {
+    if (hasWinner() || tieGameChecker())
       return (
         <button
           onClick={() => {
             setSquares(Array(9).fill(""));
             setNext("X");
-            setGameover(false);
           }}
         >
           Game Reset
@@ -109,7 +103,7 @@ const Board = () => {
         {renderSquare(7)}
         {renderSquare(8)}
       </div>
-      <div>{renderReset(gameOver)}</div>
+      <div>{renderReset()}</div>
     </div> //리셋버튼 렌더링
   );
 };
